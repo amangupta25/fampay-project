@@ -51,7 +51,7 @@ In another terminal, run
 
 2. ```npm run dev:server```
 
-##UI:
+## UI:
 
 ![](/screeshots/preview.png)
 <br>

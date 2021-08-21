@@ -18,7 +18,7 @@ A project to provide APIs and UI Dashboard to fetch published videos from Youtub
 #
 **NOTE: Please put your Youtube Data v3 API Key before running this project in any mode**
 
-### To build and start the project in production mode with docker
+## To build and start the project in production mode with docker
 _First, replace <API-KEY> in docker-compose.yml file with your api key (or list of comma separated api keys)_ <br><br>
 Run the following cmd from the root of the project dir : 
 ```bash
@@ -31,7 +31,7 @@ After docker container is up and running, then open:
 PS: It might take some time for the first time when you open the ui dashboard on your browser as the database and tables will get initialize in postgres and then a connection will be formed with the server. If such scenario occurs and the table shows loading, then please wait and refresh the browser url in some time. 
 #
 **Important: To run the project in any of the below mode (i.e. apart from dockerized), make sure you have a up and running Postgres db**
-### To build and start the project in production mode locally
+## To build and start the project in production mode locally
 _First, replace <API-KEY> in .env file with your api key (or list of comma separated api keys)_ <br><br>
 
 Run the following cmd from the root of the project dir : 
@@ -40,7 +40,7 @@ Run the following cmd from the root of the project dir :
 then
 2. ```npm run build:server```
 
-### To run the project in development mode locally
+## To run the project in development mode locally
 _First, replace <API-KEY> in .env file with your api key (or list of comma separated api keys)_ <br><br>
 
 Run the following cmd from the root of the project dir : 

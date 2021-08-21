@@ -70,7 +70,7 @@ _More Screenshots present in screenshots dir inside this project_
    <br> d. pub_datetime 
 
 
-###Endpoint:
+### Endpoint:
 GET
 ```http request
 /api/all?title={TITLE}&description={DESCRIPTION}&orderBy={COLUMN_NAME}&direction={DIRECTION}&page={PAGE_NO}&size={LIMIT}

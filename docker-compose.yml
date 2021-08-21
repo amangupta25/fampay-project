@@ -1,0 +1,52 @@
+version: "3"
+services:
+  famtube:
+    container_name: famtube
+    build:
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      - postgres
+    environment:
+      DATABASE_URL: postgres://postgres:newPassword@postgres:5432/todo-db
+      NODE_ENV: production
+      PORT: 7000
+      YOUTUBE_FETCH_INTERVAL_IN_MILLISECONDS: 50000
+      YOUTUBE_FETCH_API_QUERY: https://youtube.googleapis.com/youtube/v3/search?part=id&part=snippet&order=date&publishedAfter=2021-08-20T20%3A13%3A31.087Z&q=official&type=video&key=
+      YOUTUBE_FETCH_API_KEY_COMMA_SAPERATED: <API-KEY>
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_USERNAME: fp
+      DB_PASSWORD: password
+      DB_DATABASE: fp
+    ports:
+      - "7000:7000"
+  postgres:
+    container_name: postgres
+    image: postgres:10.4
+    ports:
+      - "3006:5432"
+    volumes:
+      - ./postgresdata:/var/lib/postgresql/data
+    restart: always
+    environment:
+      POSTGRES_USER: fp
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: fp
+  pgadmin:
+    container_name: pgadmin
+    image: dpage/pgadmin4:4.18
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@famtube.com
+      PGADMIN_DEFAULT_PASSWORD: famtube
+      PGADMIN_LISTEN_PORT: 80
+    ports:
+      - "8080:80"
+    volumes:
+      - pgadmin-data:/var/lib/pgadmin
+    depends_on:
+      - postgres
+volumes:
+  db-data:
+  pgadmin-data:

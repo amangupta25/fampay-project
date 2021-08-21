@@ -1,70 +1,126 @@
-# Getting Started with Create React App
+# FamTube 
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## About
 
-## Available Scripts
+A project to provide APIs and UI Dashboard to fetch published videos from Youtube Data v3 API
 
-In the project directory, you can run:
+## Bonus Feature
+- Support for supplying multiple API keys so that if quota is exhausted on one, it automatically uses the next available key.
+- A dashboard to view the stored videos with filters and sorting options.
+## Tech Stack
 
-### `npm start`
+- UI built on React.js
+- Server built on Node.js
+- Postgres as Database
+- Sequelize as ORM for Database communication
+- Material UI for UI components
+- pgAdmin (Add on)
+#
+**NOTE: Please put your Youtube Data v3 API Key before running this project in any mode**
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+### To build and start the project in production mode with docker
+_First, replace <API-KEY> in docker-compose.yml file with your api key (or list of comma separated api keys)_ <br><br>
+Run the following cmd from the root of the project dir : 
+```bash
+docker-compose up --build -d 
+```
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+After docker container is up and running, then open:
+```localhost:7000``` on your browser. TaDa!
 
-### `npm test`
+PS: It might take some time for the first time when you open the ui dashboard on your browser as the database and tables will get initialize in postgres and then a connection will be formed with the server. If such scenario occurs and the table shows loading, then please wait and refresh the browser url in some time. 
+#
+**Important: To run the project in any of the below mode (i.e. apart from dockerized), make sure you have a up and running Postgres db**
+### To build and start the project in production mode locally
+_First, replace <API-KEY> in .env file with your api key (or list of comma separated api keys)_ <br><br>
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Run the following cmd from the root of the project dir : 
 
-### `npm run build`
+1. ```npm run build```
+then
+2. ```npm run build:server```
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### To run the project in development mode locally
+_First, replace <API-KEY> in .env file with your api key (or list of comma separated api keys)_ <br><br>
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+Run the following cmd from the root of the project dir : 
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+1. ```npm run start```
 
-### `npm run eject`
+In another terminal, run
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+2. ```npm run dev:server```
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+##UI:
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+![](/screeshots/preview.png)
+<br>
+_More Screenshots present in screenshots dir inside this project_
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+## APIs
+- Paginated
+- Filterable on:
+   <br> a. title
+   <br> b. description
+   
+- Sortable (ASC OR DESC) on:
+   <br> a. title
+   <br> b. description
+   <br> c. thumbnail
+   <br> d. pub_datetime 
 
-## Learn More
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+###Endpoint:
+GET
+```http request
+/api/all?title={TITLE}&description={DESCRIPTION}&orderBy={COLUMN_NAME}&direction={DIRECTION}&page={PAGE_NO}&size={LIMIT}
+```
+**TITLE** : Title String to be searched for <br>
+**DESCRIPTION** : Description String to be searched for <br>
+**COLUMN_NAME** : title | description | thumbnail | pub_datetime <br>  
+**DESCRIPTION** : Description String to be searched for <br>
+**DIRECTION** : ASC | DESC (default: DESC) <br>
+**PAGE_NO** : Page no (paginated api, default: 0) <br>
+**LIMIT** : Count per page (paginated api, default: 5) <br>
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+### Sample Request
+```shell script
+curl --location --request GET 'localhost:7000/api/all?title=dil&description=moon&orderBy=title&direction=DESC&page=0&size=5' \
+--header 'Content-Type: application/json'
+```
 
-### Code Splitting
+### Sample Response
+```json
+{
+    "response": {
+        "totalItems": 3,
+        "videos": [
+            {
+                "id": "kwhfmFhQ_fc",
+                "title": "VOID: Diljit Dosanjh (Official Audio) Intense | Raj Ranjodh | MoonChild Era | Latest Song 2021",
+                "description": "Presenting full audio of the song VOID performed by DILJIT DOSANJH from the album MoonChild Era. Watch \"LOVER\" video song: ...",
+                "pub_datetime": "2021-08-21T19:43:36.000Z",
+                "thumbnail": "https://i.ytimg.com/vi/kwhfmFhQ_fc/default.jpg"
+            },
+            {
+                "id": "bRUvh1me7wQ",
+                "title": "HOOPS: Diljit Dosanjh (Official Audio) Intense | Raj Ranjodh | MoonChild Era | Latest Song 2021",
+                "description": "Presenting full audio of the song HOOPS performed by DILJIT DOSANJH from the album MoonChild Era. Watch \"LOVER\" video song: ...",
+                "pub_datetime": "2021-08-21T20:21:08.000Z",
+                "thumbnail": "https://i.ytimg.com/vi/bRUvh1me7wQ/default.jpg"
+            },
+            {
+                "id": "Yyr72jjAIKE",
+                "title": "CALI: Diljit Dosanjh (Official Audio) Intense | Raj Ranjodh | MoonChild Era | Latest Song 2021",
+                "description": "Presenting full audio of the song CALI performed by DILJIT DOSANJH from the album MoonChild Era. Watch \"LOVER\" video song: ...",
+                "pub_datetime": "2021-08-21T20:05:08.000Z",
+                "thumbnail": "https://i.ytimg.com/vi/Yyr72jjAIKE/default.jpg"
+            }
+        ],
+        "totalPages": 1,
+        "currentPage": 0,
+        "limit": 5
+    }
+}
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)

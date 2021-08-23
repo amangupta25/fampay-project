@@ -85,12 +85,10 @@ app
     .listen(config.app.port, config.app.host, () => {
         console.log(`App is running at ${config.app.host}:${config.app.port} in ${process.env.NODE_ENV} mode`);
         // Verify database connection
-        setTimeout(()=>{
-            sequelize
-                .authenticate()
-                .then(() => logger.info(`Successfully connected to ${sequelize.config.database} database`))
-                .catch(err => logger.error('Unable to connect to the database:' +  err))
-        }, 10000);
+        sequelize
+            .authenticate()
+            .then(() => logger.info(`Successfully connected to ${sequelize.config.database} database`))
+            .catch(err => logger.error('Unable to connect to the database:' +  err))
     })
 
 module.exports = app;

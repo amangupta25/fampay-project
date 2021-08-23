@@ -2,23 +2,21 @@ FROM node:12-alpine
 MAINTAINER amangupta570@gmail.com
 
 ENV BASE_DIR /usr/app
-ENV BIN_DIR ${BASE_DIR}/bin
 
 WORKDIR ${BASE_DIR}
 COPY . ${BASE_DIR}
-COPY docker/bin ${BIN_DIR}
 
-RUN mkdir -p ${BASE_DIR} ${BIN_DIR}
+RUN mkdir -p ${BASE_DIR}
 
-RUN chown -R nobody:nogroup ${BIN_DIR}
-RUN chmod 755 ${BIN_DIR}/*
 
-RUN echo ${BIN_DIR}
+# Add wait-for-it
+COPY wait-for-it.sh wait-for-it.sh
+RUN chmod +x wait-for-it.sh
 
 EXPOSE 7000
 RUN npm install --silent
 RUN npm run build
+RUN apk update && apk add bash
 
-CMD ["npm","run","build:server"]
-
+CMD ["./wait-for-it.sh" , "postgres:5432" , "--strict" , "--timeout=300" , "--" , "npm","run","build:server"]
 

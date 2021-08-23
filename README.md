@@ -28,7 +28,6 @@ docker-compose up --build -d
 After docker container is up and running, then open:
 ```localhost:7000``` on your browser. TaDa!
 
-PS: It might take some time for the first time when you open the ui dashboard on your browser as the database and tables will get initialize in postgres and then a connection will be formed with the server. If such scenario occurs and the table shows loading, then please wait and refresh the browser url in some time. 
 #
 **Important: To run the project in any of the below mode (i.e. apart from dockerized), make sure you have a up and running Postgres db**
 ## To build and start the project in production mode locally

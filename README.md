@@ -123,3 +123,18 @@ curl --location --request GET 'localhost:7000/api/all?title=dil&description=moon
 }
 ```
 
+## pgAdmin Portal
+
+You can access the portal at ```localhost:8080```.<br>
+<br> Username: ```admin@famtube.com```
+<br> Passsword: ```famtube```
+
+To connect you postgres db server in pgAdmin:
+
+- Enter Host: <br>
+Note: _To get the host ip of you postgres container you can use the following cmd:_
+```docker inspect postgres | grep IPAddress```
+- Port: **5432**
+- Username: **fp**
+- Password: **password**
+

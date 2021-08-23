@@ -33,7 +33,7 @@
     "build:server": "cross-env NODE_ENV=production node server.js",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "dev:server": "cross-env NODE_ENV=production nodemon server.js"
+    "dev:server": "cross-env NODE_ENV=development nodemon server.js"
   },
   "eslintConfig": {
     "extends": [

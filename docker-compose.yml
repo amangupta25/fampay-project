@@ -26,8 +26,6 @@ services:
     image: postgres:10.4
     ports:
       - "3006:5432"
-    volumes:
-      - ./postgresdata:/var/lib/postgresql/data
     restart: always
     environment:
       POSTGRES_USER: fp

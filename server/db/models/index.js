@@ -14,6 +14,9 @@ if(process.env.NODE_ENV !== "development"){
         .then(() => {
             logger.info(`Database & tables created!`)
         })
+        .catch((e) =>{
+            logger.error(`Unable to sync the database: `+ e)
+        })
 }
 
 module.exports = { ...models, sequelize, Sequelize };

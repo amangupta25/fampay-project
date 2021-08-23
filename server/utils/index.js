@@ -2,7 +2,6 @@ const axios = require("axios");
 const config = require("../config");
 const logger = require('../config/logger');
 
-
 module.exports = {
     async fetchLatestYoutubeVideos(apiKey) {
         try {

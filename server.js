@@ -9,35 +9,12 @@ const serveStatic = require("serve-static");
 const expressPino = require('express-pino-logger');
 const logger = require('./server/config/logger');
 const expressLogger = expressPino({ logger });
-const utils = require('./server/utils/index');
-const services = require('./server/services/index');
+const helper = require('./server/utils/helper')
 
-
-var apiKeyIndex = 0;
-async function fetchYoutubeData(){
-    let apiKeys = config.youtube.api.key;
-    try {
-        const data = await utils.fetchLatestYoutubeVideos(apiKeys[apiKeyIndex]);
-        const videos = data.items.map(item => {
-            return {
-                id: item.id.videoId,
-                title: item.snippet.title,
-                description: item.snippet.description,
-                pub_datetime: item.snippet.publishedAt,
-                thumbnail: item.snippet.thumbnails.default.url
-            };
-        });
-        const resp = await services.insertVideos(videos);
-    } catch (e) {
-        if(e.response && e.response.status === 403)
-            apiKeyIndex = (apiKeyIndex + 1) % apiKeys.length;
-    }
-
-}
-
-fetchYoutubeData().then((resp) => logger.info("Data fetched and stored!"));
+// Fetching Videos from Youtube Data v3 API in intervals and Storing in Db
+helper.fetchAndStore();
 setInterval(function(){
-    fetchYoutubeData().then((resp) => logger.info("Data fetched and stored!"));
+    helper.fetchAndStore();
 }, config.youtube.fetch.interval);
 
 /**
@@ -88,7 +65,7 @@ app
         sequelize
             .authenticate()
             .then(() => logger.info(`Successfully connected to ${sequelize.config.database} database`))
-            .catch(err => logger.error('Unable to connect to the database:' +  err))
+            .catch(err => logger.error('Unable to connect to the database: ' +  err))
     })
 
 module.exports = app;
